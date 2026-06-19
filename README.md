@@ -1,71 +1,81 @@
-# CAFA-6 Protein Function Prediction – Weighted Ensemble Model
+# 🧬 CAFA 6 — Protein Function Prediction
 
-## Overview
-This project implements a weighted ensemble model for protein function prediction as part of the CAFA-6 competition on Kaggle. The objective is to predict Gene Ontology functional terms for proteins by combining outputs from multiple base models to improve accuracy and reliability.
+![Bioinformatics](https://img.shields.io/badge/-Bioinformatics-1a1b26?style=flat-square&logoColor=c0caf5) ![Protein Sequences](https://img.shields.io/badge/-Protein%20Sequences-1a1b26?style=flat-square&logoColor=c0caf5) ![Multi-Label Classification](https://img.shields.io/badge/-Multi-Label%20Classification-1a1b26?style=flat-square&logoColor=c0caf5) ![ESM Embeddings](https://img.shields.io/badge/-ESM%20Embeddings-1a1b26?style=flat-square&logoColor=c0caf5)
 
-The weighted ensemble approach enables the model to integrate strengths from different methods, resulting in better performance on unseen protein sequences.
+![Banner](./banner.png)
 
-## Dataset
-This work uses the CAFA-6 Protein Function Prediction dataset provided by the competition organizers on Kaggle.
+> [!IMPORTANT]
+> **Host:** `CAFA Consortium`  
+> **Platform Link:** [Kaggle Competition](https://www.kaggle.com/competitions/cafa-6)  
+> **Dataset Link:** [Kaggle Dataset](https://www.kaggle.com/competitions/cafa-6/data)  
+> **Domain:** `Bioinformatics & Protein Function`
 
-Competition link  
-https://www.kaggle.com/competitions/cafa-6-protein-function-prediction
+## 📖 Overview
 
-Reference notebook  
-https://www.kaggle.com/code/mafiosoquasar/cafa-6-protein-weighted-ensemble
+My work on predicting protein functions from their amino acid sequences. It's a bio-informatics challenge where we submit gene ontology predictions based on protein sequence embeddings.
 
-## Architecture Description
+## ⚙️ Standard Pipeline Workflow
 
-### Data Processing
-Raw protein sequences are loaded and processed to extract meaningful numerical features. This includes sequence cleanup, tokenization, encoding, and optional metadata extraction such as domain or alignment information.
+```mermaid
+%%{init: {'theme': 'dark', 'themeVariables': { 'background': '#0f0f12', 'primaryColor': '#1a1b26', 'edgeLabelBackground':'#11111b', 'tertiaryColor': '#1a1b26'}}}%%
+flowchart LR
+    A[Data Gathering] --> B[Preprocessing & EDA]
+    B --> C[Model Training]
+    C --> D[Inference & Submission]
+    style A fill:#1e1e24,stroke:#7aa2f7,stroke-width:2px,color:#c0caf5
+    style B fill:#1e1e24,stroke:#bb9af7,stroke-width:2px,color:#c0caf5
+    style C fill:#1e1e24,stroke:#f7768e,stroke-width:2px,color:#c0caf5
+    style D fill:#1e1e24,stroke:#9ece6a,stroke-width:2px,color:#c0caf5
+```
 
-### Base Models
-Multiple base models are used to generate predictions for Gene Ontology terms. Each model focuses on different biological or sequence-based features. These predictors may include machine learning models, similarity-based methods, or deep learning models.
+## 🗂️ Notebook Architecture & Inventory
 
-### Weighted Ensemble
-Predictions from all base models are combined using a weighted averaging strategy. Weights are determined based on model performance or confidence scores. The ensemble produces the final probability distribution for each GO term associated with a protein.
+### 📂 Preprocessing & EDA
+*Data cleaning, feature engineering, and exploratory data analysis.*
 
-### Output Generation
-The final predictions are formatted according to the CAFA-6 submission structure. The system supports multi-label outputs because proteins frequently perform multiple biological functions.
+| Script / Notebook | Type | Versions | Average Size | Core Stack / Techniques |
+|:------------------|:-----|:---------|:-------------|:------------------------|
+| 📄 [CNN_Preprocessing](./Preprocessing%20%26%20EDA/CNN_Preprocessing.ipynb) | Single Notebook | `v1` | `7 KB` | `Pandas Data Prep` |
+| 📄 [Preprocessing](./Preprocessing%20%26%20EDA/Preprocessing.ipynb) | Single Notebook | `v1` | `4 KB` | `Pandas Data Prep` |
+| 📁 **Preprocessing_2** | Multi-Version Script | [v1](./Preprocessing%20%26%20EDA/Preprocessing_2/v1.ipynb), [v2](./Preprocessing%20%26%20EDA/Preprocessing_2/v2.ipynb) | `Avg 77 KB` | `Pandas Data Prep` |
 
-### Evaluation
-When ground truth annotations are available, evaluation metrics such as precision, recall, and F1 score are computed. This step assists in tuning the ensemble and analyzing performance.
+### 📂 Training
+*Model training and tuning scripts.*
 
-## Project Structure
-data_processing  
-sequence_loader.py  
-feature_extractor.py  
+| Script / Notebook | Type | Versions | Average Size | Core Stack / Techniques |
+|:------------------|:-----|:---------|:-------------|:------------------------|
+| 📁 **LSTM_CNN_Training** | Multi-Version Script | [v1](./Training/LSTM_CNN_Training/v1.ipynb), [v2](./Training/LSTM_CNN_Training/v2.ipynb) | `Avg 108 KB` | `PyTorch` |
+| 📄 [ProtBert_Training](./Training/ProtBert_Training.ipynb) | Single Notebook | `v1` | `148 KB` | `PyTorch` |
+| 📁 **ProtBert_Training_2** | Multi-Version Script | [v1](./Training/ProtBert_Training_2/v1.ipynb), [v2](./Training/ProtBert_Training_2/v2.ipynb), [v3](./Training/ProtBert_Training_2/v3.ipynb), [v4](./Training/ProtBert_Training_2/v4.ipynb) | `Avg 108 KB` | `PyTorch` |
+| 📁 **ProtBert_Training_3** | Multi-Version Script | [v1](./Training/ProtBert_Training_3/v1.ipynb), [v2](./Training/ProtBert_Training_3/v2.ipynb), [v3](./Training/ProtBert_Training_3/v3.ipynb), [v4](./Training/ProtBert_Training_3/v4.ipynb), [v5](./Training/ProtBert_Training_3/v5.ipynb), [v6](./Training/ProtBert_Training_3/v6.ipynb), [v7](./Training/ProtBert_Training_3/v7.ipynb) | `Avg 180 KB` | `PyTorch` |
 
-models  
-base_model_1.py  
-base_model_2.py  
+### 📂 Inference & Submission
+*Prediction pipeline and Kaggle submission file generation.*
 
-ensemble  
-weighted_ensemble.py  
-aggregator.py  
+| Script / Notebook | Type | Versions | Average Size | Core Stack / Techniques |
+|:------------------|:-----|:---------|:-------------|:------------------------|
+| 📁 **CNN_ProtBert_Inference** | Multi-Version Script | [v1](./Inference%20%26%20Submission/CNN_ProtBert_Inference/v1.ipynb), [v10](./Inference%20%26%20Submission/CNN_ProtBert_Inference/v10.ipynb), [v11](./Inference%20%26%20Submission/CNN_ProtBert_Inference/v11.ipynb), [v12](./Inference%20%26%20Submission/CNN_ProtBert_Inference/v12.ipynb), [v13](./Inference%20%26%20Submission/CNN_ProtBert_Inference/v13.ipynb), [v14](./Inference%20%26%20Submission/CNN_ProtBert_Inference/v14.ipynb), [v15](./Inference%20%26%20Submission/CNN_ProtBert_Inference/v15.ipynb), [v16](./Inference%20%26%20Submission/CNN_ProtBert_Inference/v16.ipynb), [v17](./Inference%20%26%20Submission/CNN_ProtBert_Inference/v17.ipynb), [v18](./Inference%20%26%20Submission/CNN_ProtBert_Inference/v18.ipynb), [v19](./Inference%20%26%20Submission/CNN_ProtBert_Inference/v19.ipynb), [v2](./Inference%20%26%20Submission/CNN_ProtBert_Inference/v2.ipynb), [v20](./Inference%20%26%20Submission/CNN_ProtBert_Inference/v20.ipynb), [v3](./Inference%20%26%20Submission/CNN_ProtBert_Inference/v3.ipynb), [v4](./Inference%20%26%20Submission/CNN_ProtBert_Inference/v4.ipynb), [v5](./Inference%20%26%20Submission/CNN_ProtBert_Inference/v5.ipynb), [v6](./Inference%20%26%20Submission/CNN_ProtBert_Inference/v6.ipynb), [v7](./Inference%20%26%20Submission/CNN_ProtBert_Inference/v7.ipynb), [v8](./Inference%20%26%20Submission/CNN_ProtBert_Inference/v8.ipynb), [v9](./Inference%20%26%20Submission/CNN_ProtBert_Inference/v9.ipynb) | `Avg 119 KB` | `PyTorch` |
+| 📄 [ProtBert_Inference](./Inference%20%26%20Submission/ProtBert_Inference.ipynb) | Single Notebook | `v1` | `157 KB` | `PyTorch` |
 
-evaluation  
-metrics.py  
-evaluation_pipeline.py  
+### 📂 Models & Utilities
+*Shared model architectures, helper functions, and custom loss functions.*
 
-output  
-submission_formatter.py  
+| Script / Notebook | Type | Versions | Average Size | Core Stack / Techniques |
+|:------------------|:-----|:---------|:-------------|:------------------------|
+| 📁 **Utility** | Multi-Version Script | [v1](./Models%20%26%20Utilities/Utility/v1.ipynb), [v2](./Models%20%26%20Utilities/Utility/v2.ipynb) | `Avg 115 KB` | `PyTorch` |
 
-main.py  
-README.md
+---
 
-## Key Features
-Weighted ensemble model for enhanced predictive accuracy  
-Modular design that supports easy integration of additional models  
-Supports multi-label protein function prediction  
-Compatible with CAFA-6 submission format  
-Capable of processing large protein datasets  
+## 🚀 Navigation & Usage Guidelines
 
-## How to Run
-Open the notebook and execute the pipeline including feature extraction, model inference, and ensemble prediction.  
-Modify ensemble weights as needed for tuning.  
-Export the final predictions in CAFA-6 submission format.
+> [!TIP]
+> 1. **EDA & Preprocessing**: Verify data loaders, actigraphy or DICOM image transformations before model training.
+> 2. **Training & Optimization**: Check model definition parameters and training logs to reproduce network weights.
+> 3. **Inference & Post-Processing**: Run final pipelines to verify predictions and check submission formats.
 
-## Notes
-The predictive performance depends significantly on the quality of input features and the diversity of the base models. Incorporating additional feature extraction techniques or new base models can further improve performance.
 
+---
+
+> *"The code of life is a dark labyrinth, where every secret solved reveals ten more doors."*
+>
+> — **Vigneshwaran S**
